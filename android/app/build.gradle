@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.np.suprimpoudel.designs_hub"
-    compileSdk flutter.compileSdkVersion
+    compileSdk 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -42,10 +42,12 @@ android {
 
     defaultConfig {
         applicationId "com.np.suprimpoudel.designs_hub"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 29
+        //noinspection OldTargetApi
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -59,4 +61,13 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    //noinspection GradleDependency
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
+    //noinspection GradleDependency
+    implementation 'androidx.window:window:1.0.0'
+
+    //noinspection GradleDependency
+    implementation 'androidx.window:window-java:1.0.0'
+}
