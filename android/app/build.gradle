@@ -12,6 +12,12 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
@@ -23,6 +29,14 @@ if (flutterVersionName == null) {
 }
 
 android {
+    signingConfigs {
+        release {
+            keyPassword keystoreProperties['aliasPassword']
+            storePassword keystoreProperties['keyPass']
+            keyAlias keystoreProperties['alias']
+            storeFile file(keystoreProperties['keyStoreLocation'])
+        }
+    }
     namespace "com.np.suprimpoudel.designs_hub"
     compileSdk 34
     ndkVersion flutter.ndkVersion
@@ -52,7 +66,7 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }
